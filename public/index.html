@@ -1,0 +1,969 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JioSaavn API - Documentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family:
+          "Inter",
+          -apple-system,
+          sans-serif;
+        background: #000;
+        color: #e6edf3;
+        line-height: 1.6;
+      }
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem 4rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+        color: aliceblue;
+      }
+      .subtitle {
+        color: #8b949e;
+        margin-bottom: 2rem;
+        font-size: 0.95rem;
+      }
+      .subtitle code {
+        background: #333;
+        padding: 0.15rem 0.4rem;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        -webkit-text-fill-color: #e6edf3;
+      }
+
+      h2 {
+        font-size: 1.35rem;
+        font-weight: 600;
+        margin: 2rem 0 0.75rem;
+        padding-bottom: 0.35rem;
+        border-bottom: 1px solid #21262d;
+      }
+      h3 {
+        font-size: 1.05rem;
+        font-weight: 600;
+        margin: 1.5rem 0 0.5rem;
+        color: #f0f6fc;
+      }
+
+      .endpoint {
+        background: #0d1117;
+        border: 1px solid #30363d;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        overflow: hidden;
+      }
+      .endpoint-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        background: #1c2128;
+        border-bottom: 1px solid #30363d;
+      }
+      .method {
+        display: inline-block;
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .method.get {
+        background: #20dd60;
+        color: #111;
+        border: 1px solid #20ff90;
+      }
+      .path {
+        font-family: "SF Mono", "Fira Code", monospace;
+        font-size: 0.85rem;
+        color: #e6edf3;
+        flex: 1;
+      }
+      .desc {
+        font-size: 0.85rem;
+        color: #8b949e;
+      }
+      .endpoint-body {
+        padding: 0.75rem 1rem 1rem;
+      }
+      .endpoint-body p {
+        font-size: 0.85rem;
+        color: #8b949e;
+        margin-bottom: 0.5rem;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.85rem;
+        margin: 0.5rem 0;
+      }
+      th {
+        text-align: left;
+        padding: 0.5rem 0.6rem;
+        color: #8b949e;
+        font-weight: 600;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        border-bottom: 1px solid #30363d;
+      }
+      td {
+        padding: 0.45rem 0.6rem;
+        border-bottom: 1px solid #21262d;
+        color: #e6edf3;
+      }
+      td:first-child {
+        font-family: "SF Mono", "Fira Code", monospace;
+        font-size: 0.8rem;
+        color: #f0883e;
+      }
+      td:nth-child(2) {
+        color: #8b949e;
+      }
+      td:nth-child(3) {
+        color: #f0883e;
+      }
+      .required {
+        color: #f85149 !important;
+      }
+
+      pre {
+        background: #0d1117;
+        border: 1px solid #30363d;
+        border-radius: 6px;
+        padding: 0.75rem 1rem;
+        overflow-x: auto;
+        font-size: 0.82rem;
+        line-height: 1.5;
+        margin: 0.5rem 0;
+      }
+      code {
+        font-family: "SF Mono", "Fira Code", monospace;
+      }
+
+      .section-divider {
+        margin: 2.5rem 0;
+        border: 0;
+        border-top: 1px solid #21262d;
+      }
+
+      .badge {
+        display: inline-block;
+        font-size: 0.7rem;
+        font-weight: 600;
+        padding: 0.15rem 0.5rem;
+        border-radius: 999px;
+        background: #1f6feb22;
+        color: #58a6ff;
+        border: 1px solid #1f6feb44;
+      }
+      .badge-yellow {
+        background: #d2992222;
+        color: #d29922;
+        border-color: #d2992244;
+      }
+      .badge-red {
+        background: #f8514922;
+        color: #f85149;
+        border-color: #f8514944;
+      }
+
+      .status-codes {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin: 0.5rem 0;
+      }
+      .status-code {
+        font-size: 0.82rem;
+      }
+      .status-code strong {
+        font-family: "SF Mono", "Fira Code", monospace;
+      }
+      .status-code span {
+        color: #8b949e;
+      }
+
+      .footer {
+        margin-top: 3rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #21262d;
+        text-align: center;
+        color: #484f58;
+        font-size: 0.8rem;
+      }
+      .footer a {
+        color: #58a6ff;
+        text-decoration: none;
+      }
+      .footer a:hover {
+        text-decoration: underline;
+      }
+
+      @media (max-width: 640px) {
+        .container {
+          padding: 1rem;
+        }
+        h1 {
+          font-size: 1.5rem;
+        }
+        .endpoint-header {
+          flex-wrap: wrap;
+        }
+        table {
+          font-size: 0.78rem;
+        }
+        td,
+        th {
+          padding: 0.35rem 0.4rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Singularity API</h1>
+      <p class="subtitle">Base URL: <code>http://localhost:3000/api</code></p>
+      <p style="color: #8b949e; font-size: 0.88rem; margin-bottom: 2rem">
+        All endpoints return JSON with the structure:
+        <code>{ success: boolean, data: T }</code>
+      </p>
+
+      <h2>Songs</h2>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method get">GET</span>
+          <span class="path">/api/songs</span>
+          <span class="desc">Get songs by IDs or link</span>
+        </div>
+        <div class="endpoint-body">
+          <table>
+            <tr>
+              <th>Query Param</th>
+              <th>Type</th>
+              <th>Required</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td>ids</td>
+              <td>string</td>
+              <td class="required">No*</td>
+              <td>
+                Comma-separated list of song IDs (e.g.
+                <code>3IoDK8qI,4IoDK8qI</code>)
+              </td>
+            </tr>
+            <tr>
+              <td>link</td>
+              <td>string (url)</td>
+              <td class="required">No*</td>
+              <td>
+                Direct JioSaavn song link (e.g.
+                <code>https://www.jiosaavn.com/song/houdini/OgwhbhtDRwM</code>)
+              </td>
+            </tr>
+          </table>
+          <p style="font-size: 0.8rem; color: #8b949e; margin-top: 0.25rem">
+            * Either <code>ids</code> or <code>link</code> must be provided.
+          </p>
+          <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #8b949e">
+            <strong style="color: #e6edf3">Response:</strong>
+            <code>{ success: boolean, data: Song[] }</code>
+          </p>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method get">GET</span>
+          <span class="path">/api/songs/{id}</span>
+          <span class="desc">Get song by ID</span>
+        </div>
+        <div class="endpoint-body">
+          <table>
+            <tr>
+              <th>Path Param</th>
+              <th>Type</th>
+              <th>Required</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td>id</td>
+              <td>string</td>
+              <td class="required">Yes</td>
+              <td>ID of the song (e.g. <code>3IoDK8qI</code>)</td>
+            </tr>
+          </table>
+          <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #8b949e">
+            <strong style="color: #e6edf3">Response:</strong>
+            <code>{ success: boolean, data: Song[] }</code>
+          </p>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method get">GET</span>
+          <span class="path">/api/songs/{id}/suggestions</span>
+          <span class="desc">Get song suggestions</span>
+        </div>
+        <div class="endpoint-body">
+          <table>
+            <tr>
+              <th>Query Param</th>
+              <th>Type</th>
+              <th>Required</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td>limit</td>
+              <td>number</td>
+              <td>No</td>
+              <td><code>10</code></td>
+              <td>Number of suggestions to retrieve</td>
+            </tr>
+          </table>
+          <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #8b949e">
+            <strong style="color: #e6edf3">Response:</strong>
+            <code>{ success: boolean, data: Song[] }</code>
+          </p>
+        </div>
+      </div>
+
+      <hr class="section-divider" />
+
+      <h2>Albums</h2>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method get">GET</span>
+          <span class="path">/api/albums</span>
+          <span class="desc">Get album by ID or link</span>
+        </div>
+        <div class="endpoint-body">
+          <table>
+            <tr>
+              <th>Query Param</th>
+              <th>Type</th>
+              <th>Required</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td>id</td>
+              <td>string</td>
+              <td class="required">No*</td>
+              <td>Album ID (e.g. <code>23241654</code>)</td>
+            </tr>
+            <tr>
+              <td>link</td>
+              <td>string (url)</td>
+              <td class="required">No*</td>
+              <td>
+                Direct JioSaavn album link (e.g.
+                <code
+                  >https://www.jiosaavn.com/album/future-nostalgia/ITIyo-GDr7A_</code
+                >)
+              </td>
+            </tr>
+          </table>
+          <p style="font-size: 0.8rem; color: #8b949e; margin-top: 0.25rem">
+            * Either <code>id</code> or <code>link</code> must be provided.
+          </p>
+          <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #8b949e">
+            <strong style="color: #e6edf3">Response:</strong>
+            <code>{ success: boolean, data: Album }</code>
+          </p>
+        </div>
+      </div>
+
+      <hr class="section-divider" />
+
+      <h2>Artists</h2>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method get">GET</span>
+          <span class="path">/api/artists</span>
+          <span class="desc">Get artist by ID or link</span>
+        </div>
+        <div class="endpoint-body">
+          <table>
+            <tr>
+              <th>Query Param</th>
+              <th>Type</th>
+              <th>Required</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td>id</td>
+              <td>string</td>
+              <td class="required">No*</td>
+              <td>—</td>
+              <td>Artist ID (e.g. <code>1274170</code>)</td>
+            </tr>
+            <tr>
+              <td>link</td>
+              <td>string (url)</td>
+              <td class="required">No*</td>
+              <td>—</td>
+              <td>Direct JioSaavn artist link</td>
+            </tr>
+            <tr>
+              <td>page</td>
+              <td>number</td>
+              <td>No</td>
+              <td><code>0</code></td>
+              <td>Page number</td>
+            </tr>
+            <tr>
+              <td>songCount</td>
+              <td>number</td>
+              <td>No</td>
+              <td><code>10</code></td>
+              <td>Number of songs to fetch</td>
+            </tr>
+            <tr>
+              <td>albumCount</td>
+              <td>number</td>
+              <td>No</td>
+              <td><code>10</code></td>
+              <td>Number of albums to fetch</td>
+            </tr>
+            <tr>
+              <td>sortBy</td>
+              <td>enum</td>
+              <td>No</td>
+              <td><code>popularity</code></td>
+              <td>
+                <code>popularity</code>, <code>latest</code>,
+                <code>alphabetical</code>
+              </td>
+            </tr>
+            <tr>
+              <td>sortOrder</td>
+              <td>enum</td>
+              <td>No</td>
+              <td><code>desc</code></td>
+              <td><code>asc</code>, <code>desc</code></td>
+            </tr>
+          </table>
+          <p style="font-size: 0.8rem; color: #8b949e; margin-top: 0.25rem">
+            * Either <code>id</code> or <code>link</code> must be provided.
+          </p>
+          <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #8b949e">
+            <strong style="color: #e6edf3">Response:</strong>
+            <code>{ success: boolean, data: Artist }</code>
+          </p>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method get">GET</span>
+          <span class="path">/api/artists/{id}</span>
+          <span class="desc">Get artist by ID</span>
+        </div>
+        <div class="endpoint-body">
+          <table>
+            <tr>
+              <th>Path/Query Param</th>
+              <th>Type</th>
+              <th>Required</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td>id</td>
+              <td>string</td>
+              <td class="required">Yes</td>
+              <td>—</td>
+              <td>Artist ID (e.g. <code>1274170</code>)</td>
+            </tr>
+            <tr>
+              <td>page</td>
+              <td>number</td>
+              <td>No</td>
+              <td><code>0</code></td>
+              <td>Page number</td>
+            </tr>
+            <tr>
+              <td>songCount</td>
+              <td>number</td>
+              <td>No</td>
+              <td><code>10</code></td>
+              <td>Number of songs to retrieve</td>
+            </tr>
+            <tr>
+              <td>albumCount</td>
+              <td>number</td>
+              <td>No</td>
+              <td><code>10</code></td>
+              <td>Number of albums to retrieve</td>
+            </tr>
+            <tr>
+              <td>sortBy</td>
+              <td>enum</td>
+              <td>No</td>
+              <td><code>popularity</code></td>
+              <td>
+                <code>popularity</code>, <code>latest</code>,
+                <code>alphabetical</code>
+              </td>
+            </tr>
+            <tr>
+              <td>sortOrder</td>
+              <td>enum</td>
+              <td>No</td>
+              <td><code>desc</code></td>
+              <td><code>asc</code>, <code>desc</code></td>
+            </tr>
+          </table>
+          <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #8b949e">
+            <strong style="color: #e6edf3">Response:</strong>
+            <code>{ success: boolean, data: Artist }</code>
+          </p>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method get">GET</span>
+          <span class="path">/api/artists/{id}/songs</span>
+          <span class="desc">Get artist songs</span>
+        </div>
+        <div class="endpoint-body">
+          <table>
+            <tr>
+              <th>Path/Query Param</th>
+              <th>Type</th>
+              <th>Required</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td>id</td>
+              <td>string</td>
+              <td class="required">Yes</td>
+              <td>—</td>
+              <td>Artist ID (e.g. <code>1274170</code>)</td>
+            </tr>
+            <tr>
+              <td>page</td>
+              <td>number</td>
+              <td>No</td>
+              <td><code>0</code></td>
+              <td>Page number</td>
+            </tr>
+            <tr>
+              <td>sortBy</td>
+              <td>enum</td>
+              <td>No</td>
+              <td><code>popularity</code></td>
+              <td>
+                <code>popularity</code>, <code>latest</code>,
+                <code>alphabetical</code>
+              </td>
+            </tr>
+            <tr>
+              <td>sortOrder</td>
+              <td>enum</td>
+              <td>No</td>
+              <td><code>desc</code></td>
+              <td><code>asc</code>, <code>desc</code></td>
+            </tr>
+          </table>
+          <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #8b949e">
+            <strong style="color: #e6edf3">Response:</strong>
+            <code>{ success: boolean, data: ArtistSong[] }</code>
+          </p>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method get">GET</span>
+          <span class="path">/api/artists/{id}/albums</span>
+          <span class="desc">Get artist albums</span>
+        </div>
+        <div class="endpoint-body">
+          <table>
+            <tr>
+              <th>Path/Query Param</th>
+              <th>Type</th>
+              <th>Required</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td>id</td>
+              <td>string</td>
+              <td class="required">Yes</td>
+              <td>—</td>
+              <td>Artist ID (e.g. <code>1274170</code>)</td>
+            </tr>
+            <tr>
+              <td>page</td>
+              <td>number</td>
+              <td>No</td>
+              <td><code>0</code></td>
+              <td>Page number</td>
+            </tr>
+            <tr>
+              <td>sortBy</td>
+              <td>enum</td>
+              <td>No</td>
+              <td><code>popularity</code></td>
+              <td>
+                <code>popularity</code>, <code>latest</code>,
+                <code>alphabetical</code>
+              </td>
+            </tr>
+            <tr>
+              <td>sortOrder</td>
+              <td>enum</td>
+              <td>No</td>
+              <td><code>desc</code></td>
+              <td><code>asc</code>, <code>desc</code></td>
+            </tr>
+          </table>
+          <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #8b949e">
+            <strong style="color: #e6edf3">Response:</strong>
+            <code>{ success: boolean, data: ArtistAlbum[] }</code>
+          </p>
+        </div>
+      </div>
+
+      <hr class="section-divider" />
+
+      <h2>Search</h2>
+      <p style="color: #8b949e; font-size: 0.9rem; margin-bottom: 1rem">
+        All search endpoints require a <code>query</code> parameter.
+      </p>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method get">GET</span>
+          <span class="path">/api/search</span>
+          <span class="desc">Global search</span>
+        </div>
+        <div class="endpoint-body">
+          <table>
+            <tr>
+              <th>Query Param</th>
+              <th>Type</th>
+              <th>Required</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td>query</td>
+              <td>string</td>
+              <td class="required">Yes</td>
+              <td>Search query (e.g. <code>Imagine Dragons</code>)</td>
+            </tr>
+          </table>
+          <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #8b949e">
+            <strong style="color: #e6edf3">Response:</strong>
+            <code
+              >{ success: boolean, data: { songs, albums, artists, playlists }
+              }</code
+            >
+          </p>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method get">GET</span>
+          <span class="path">/api/search/songs</span>
+          <span class="desc">Search songs</span>
+        </div>
+        <div class="endpoint-body">
+          <table>
+            <tr>
+              <th>Query Param</th>
+              <th>Type</th>
+              <th>Required</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td>query</td>
+              <td>string</td>
+              <td class="required">Yes</td>
+              <td>—</td>
+              <td>Search query (e.g. <code>Believer</code>)</td>
+            </tr>
+            <tr>
+              <td>page</td>
+              <td>number</td>
+              <td>No</td>
+              <td><code>0</code></td>
+              <td>Page number</td>
+            </tr>
+            <tr>
+              <td>limit</td>
+              <td>number</td>
+              <td>No</td>
+              <td><code>10</code></td>
+              <td>Results per page</td>
+            </tr>
+          </table>
+          <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #8b949e">
+            <strong style="color: #e6edf3">Response:</strong>
+            <code>{ success: boolean, data: SearchSong[] }</code>
+          </p>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method get">GET</span>
+          <span class="path">/api/search/albums</span>
+          <span class="desc">Search albums</span>
+        </div>
+        <div class="endpoint-body">
+          <table>
+            <tr>
+              <th>Query Param</th>
+              <th>Type</th>
+              <th>Required</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td>query</td>
+              <td>string</td>
+              <td class="required">Yes</td>
+              <td>—</td>
+              <td>Search query (e.g. <code>Evolve</code>)</td>
+            </tr>
+            <tr>
+              <td>page</td>
+              <td>number</td>
+              <td>No</td>
+              <td><code>0</code></td>
+              <td>Page number</td>
+            </tr>
+            <tr>
+              <td>limit</td>
+              <td>number</td>
+              <td>No</td>
+              <td><code>10</code></td>
+              <td>Results per page</td>
+            </tr>
+          </table>
+          <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #8b949e">
+            <strong style="color: #e6edf3">Response:</strong>
+            <code>{ success: boolean, data: SearchAlbum[] }</code>
+          </p>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method get">GET</span>
+          <span class="path">/api/search/artists</span>
+          <span class="desc">Search artists</span>
+        </div>
+        <div class="endpoint-body">
+          <table>
+            <tr>
+              <th>Query Param</th>
+              <th>Type</th>
+              <th>Required</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td>query</td>
+              <td>string</td>
+              <td class="required">Yes</td>
+              <td>—</td>
+              <td>Search query (e.g. <code>Adele</code>)</td>
+            </tr>
+            <tr>
+              <td>page</td>
+              <td>number</td>
+              <td>No</td>
+              <td><code>0</code></td>
+              <td>Page number</td>
+            </tr>
+            <tr>
+              <td>limit</td>
+              <td>number</td>
+              <td>No</td>
+              <td><code>10</code></td>
+              <td>Results per page</td>
+            </tr>
+          </table>
+          <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #8b949e">
+            <strong style="color: #e6edf3">Response:</strong>
+            <code>{ success: boolean, data: SearchArtist[] }</code>
+          </p>
+        </div>
+      </div>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method get">GET</span>
+          <span class="path">/api/search/playlists</span>
+          <span class="desc">Search playlists</span>
+        </div>
+        <div class="endpoint-body">
+          <table>
+            <tr>
+              <th>Query Param</th>
+              <th>Type</th>
+              <th>Required</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td>query</td>
+              <td>string</td>
+              <td class="required">Yes</td>
+              <td>—</td>
+              <td>Search query (e.g. <code>Indie</code>)</td>
+            </tr>
+            <tr>
+              <td>page</td>
+              <td>number</td>
+              <td>No</td>
+              <td><code>0</code></td>
+              <td>Page number</td>
+            </tr>
+            <tr>
+              <td>limit</td>
+              <td>number</td>
+              <td>No</td>
+              <td><code>10</code></td>
+              <td>Results per page</td>
+            </tr>
+          </table>
+          <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #8b949e">
+            <strong style="color: #e6edf3">Response:</strong>
+            <code>{ success: boolean, data: SearchPlaylist[] }</code>
+          </p>
+        </div>
+      </div>
+
+      <hr class="section-divider" />
+
+      <h2>Playlists</h2>
+
+      <div class="endpoint">
+        <div class="endpoint-header">
+          <span class="method get">GET</span>
+          <span class="path">/api/playlists</span>
+          <span class="desc">Get playlist by ID or link</span>
+        </div>
+        <div class="endpoint-body">
+          <table>
+            <tr>
+              <th>Query Param</th>
+              <th>Type</th>
+              <th>Required</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td>id</td>
+              <td>string</td>
+              <td class="required">No*</td>
+              <td>—</td>
+              <td>Playlist ID (e.g. <code>82914609</code>)</td>
+            </tr>
+            <tr>
+              <td>link</td>
+              <td>string (url)</td>
+              <td class="required">No*</td>
+              <td>—</td>
+              <td>Direct JioSaavn playlist link</td>
+            </tr>
+            <tr>
+              <td>page</td>
+              <td>number</td>
+              <td>No</td>
+              <td><code>0</code></td>
+              <td>Page number</td>
+            </tr>
+            <tr>
+              <td>limit</td>
+              <td>number</td>
+              <td>No</td>
+              <td><code>10</code></td>
+              <td>Songs per page</td>
+            </tr>
+          </table>
+          <p style="font-size: 0.8rem; color: #8b949e; margin-top: 0.25rem">
+            * Either <code>id</code> or <code>link</code> must be provided.
+          </p>
+          <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #8b949e">
+            <strong style="color: #e6edf3">Response:</strong>
+            <code>{ success: boolean, data: Playlist }</code>
+          </p>
+        </div>
+      </div>
+
+      <hr class="section-divider" />
+
+      <h2>Error Response</h2>
+      <p style="color: #8b949e; font-size: 0.9rem; margin-bottom: 1rem">
+        All endpoints may return error responses:
+      </p>
+
+      <pre>
+{
+  "success": false,
+  "message": "error description"
+}</pre
+      >
+
+      <div class="status-codes">
+        <div class="status-code">
+          <strong class="badge-red">400</strong>
+          <span>Bad request — missing or invalid parameters</span>
+        </div>
+        <div class="status-code">
+          <strong class="badge-yellow">404</strong>
+          <span>Resource not found</span>
+        </div>
+        <div class="status-code">
+          <strong class="badge-red">500</strong>
+          <span>Internal server error</span>
+        </div>
+      </div>
+
+      <div class="footer">
+        <a href="https://github.com/sumitkolhe/jiosaavn-api" target="_blank"
+          >GitHub</a
+        >
+        &middot; JioSaavn API
+      </div>
+    </div>
+  </body>
+</html>

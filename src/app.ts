@@ -1,4 +1,5 @@
 import { OpenAPIHono } from '@hono/zod-openapi'
+import { serveStatic } from '@hono/node-server/serve-static'
 import { cors } from 'hono/cors'
 import { logger } from 'hono/logger'
 import { prettyJSON } from 'hono/pretty-json'
@@ -12,9 +13,20 @@ export class App {
     this.app = new OpenAPIHono()
 
     this.initializeGlobalMiddlewares()
+    this.initializeStaticFiles()
     this.initializeRoutes(routes)
     this.initializeRouteFallback()
     this.initializeErrorHandler()
+  }
+
+  private initializeStaticFiles() {
+    this.app.use(
+      '/*',
+      serveStatic({
+        root: './public',
+        index: 'index.html'
+      })
+    )
   }
 
   private initializeRoutes(routes: Routes[]) {
@@ -22,8 +34,6 @@ export class App {
       route.initRoutes()
       this.app.route('/api', route.controller)
     })
-
-    this.app.get('/', (c) => c.json({ success: true, message: 'JioSaavn API is running' }))
   }
 
   private initializeGlobalMiddlewares() {
